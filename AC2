@@ -1,0 +1,74 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
+
+type Contato struct {
+	Nome		string
+	Email		string
+}
+
+func (c *Contato) alterarEmail(email_ string) {
+	c.Email = email_
+}
+
+func main()  {
+	var contatos [5]Contato
+	var acao int
+
+	for true{
+		fmt.Println("digite 1 para adicionar, 2 para excluir, 3 para mostrar contatos, 4 para sair")
+		fmt.Scanln(&acao)
+
+		if acao == 1 {
+			leitor := bufio.NewReader(os.Stdin)
+			fmt.Println("informe seu nome: ")
+			nome, _ := leitor.ReadString('\n')
+
+			var email string
+			fmt.Println("informe seu email: ")
+			fmt.Scanln(&email)
+
+			contato := Contato{
+				Nome: nome,
+				Email: email,
+			}
+
+			contatos = adicionaContato(contato,contatos)
+		}else if acao == 2 {
+			contatos = excluiContato(contatos)
+		}else if acao == 3{
+			fmt.Println(contatos)
+		}else if acao == 4 {
+			break
+		} else{
+			continue
+		}
+
+	}
+
+}
+
+func adicionaContato(contato_ Contato, contatos_ [5]Contato) [5]Contato{
+	for i, contato := range contatos_{
+		if (contato == Contato{}) {
+			contatos_[i] = contato_
+			return contatos_
+		}
+	}
+	return contatos_ 		
+}
+
+func excluiContato(contatos_ [5]Contato) [5]Contato{
+	for i := len(contatos_)-1; i >= 0; i-- {
+		if (contatos_[i] != Contato{}) {
+			contatos_[i] = Contato{}
+			return contatos_
+		}
+	}
+	return contatos_
+}
