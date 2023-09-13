@@ -29,15 +29,16 @@ func main() {
 
 func insereOrd(v *[M]int, n *int, novoValor int) {
 	i := 0
-	for ; i < *n; i++ {
-		if v[i] > novoValor {
-			break
-		}
-	}
 
 	if *n == M {
 		fmt.Println("Overflow")
 		return
+	}
+
+	for ; i < *n; i++ {
+		if v[i] > novoValor {
+			break
+		}
 	}
 
 	for j := *n - 1; j >= i; j-- {
