@@ -29,39 +29,46 @@ func main() {
 
 func insereOrd(v *[M]int, n *int, novoValor int) {
 	ind := -1
-	if *n == M{
+	if *n == M {
 		fmt.Println("overflow")
-	}else{
-		for i := 0; i < *n; i++ {
-			ind = buscaOrd(*v, *n, novoValor + i + 1)
-			if ind != -1{
+	} else {
+		aux := novoValor
+		for true {
+			aux++
+			ind = buscaBin(*v, *n, aux)
+			if ind != -1 || aux > v[*n-1] {
 				break
 			}
 		}
-		if ind == -1{
+		if ind == -1 {
 			v[*n] = novoValor
-		}else{
-			for i := *n - 1; i >= ind; i--{
-				if v[i] == 0{
+		} else {
+			for i := *n - 1; i >= ind; i-- {
+				if v[i] == 0 {
 					continue
-				}else{
-					v[i + 1] = v[i]
+				} else {
+					v[i+1] = v[i]
 				}
 			}
-			
 			v[ind] = novoValor
 		}
 	}
+	*n++
 }
 
-func buscaOrd(v [M]int, n, x int) int {
-	i := 0
-	v[n] = x
-	for v[i] < x {
-		i++
+func buscaBin(v [M]int, n, x int) int {
+	var meio int
+	inf, sup := 0, n-1
+	for inf <= sup {
+		meio = int((inf + sup) / 2)
+		if v[meio] == x {
+			return meio
+		}
+		if v[meio] < x {
+			inf = meio + 1
+		} else {
+			sup = meio - 1
+		}
 	}
-	if i == n + 1 || v[i] != x {
-		return -1
-	}
-	return i
+	return -1
 }
